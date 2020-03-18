@@ -11,27 +11,52 @@ class App extends Component {
     super(props);
 
     this.state = {
-      text: 'React Lab'
+      text: 'React Lab',
+      hasLoaded: false
     }
   }
 
-  inputChange = (text) => {
+  inputChange(text) {
     this.setState({ text });
   }
 
-  render() {
+  isLoading() {
+    this.setState({ hasLoaded: false });
+  }
+
+  loadedScreen() {
+    this.setState({ hasLoaded: true });
     return (
-      <div>
+      <React.Fragment>
         <h1>Hey! My name is {this.props.name}. What's yours?</h1>
         <p>{this.state.text}</p>
         <input
           placeholder={this.state.text}
-          onChange={(event) => {this.inputChange(event.target.value) }}
+          onChange={(event) => { this.inputChange(event.target.value) }}
         />
-      </div>
-
+        <br />
+  
+      </React.Fragment>
+  
     );
   }
 
+  render() {
+    if (this.hasLoaded) {
+      <button onClick={this.loadedScreen} />
+    } else {
+      return (
+        <div>
+          <h1>Loading...</h1>
+          <button
+            onClick={(event) => { this.loadedScreen() }}
+          >
+            Click Me!
+      </button>
+        </div>
+      );
+    }
+  }
 }
 export default App;
+
