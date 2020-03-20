@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import { render } from '@testing-library/react';
 
-// const App = (props) => {
-//   return ( <h1>Hey! My name is { props.name }. What's yours?</h1> )
-// }
+
 
 class App extends Component {
   constructor(props) {
@@ -13,7 +11,7 @@ class App extends Component {
     this.state = {
       text: 'React Lab',
       hasLoaded: false
-    }
+    };
   }
 
   inputChange(text) {
@@ -24,33 +22,36 @@ class App extends Component {
     this.setState({ hasLoaded: false });
   }
 
-  loadedScreen() {
+  toggleHasLoaded () {
     this.setState({ hasLoaded: true });
+  }
+
+  loadedScreen() {
     return (
-      <React.Fragment>
+      <div>
         <h1>Hey! My name is {this.props.name}. What's yours?</h1>
-        <p>{this.state.text}</p>
         <input
           placeholder={this.state.text}
           onChange={(event) => { this.inputChange(event.target.value) }}
         />
         <br />
-  
-      </React.Fragment>
-  
+        <button onClick={() => this.isLoading()}>Back to Loading</button>
+      </div>
     );
   }
 
+  componentDidMount () {
+    this.setState({ hasLoaded: true });
+  }
+
   render() {
-    if (this.hasLoaded) {
-      <button onClick={this.loadedScreen} />
+    if (this.state.hasLoaded) {
+      return  <div>{this.loadedScreen()}</div>;
     } else {
       return (
         <div>
           <h1>Loading...</h1>
-          <button
-            onClick={(event) => { this.loadedScreen() }}
-          >
+          <button onClick={() => this.toggleHasLoaded()}>
             Click Me!
       </button>
         </div>
